@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Codeforces Tracker - Profile & History with Heatmap & Pagination</title>
+  <title>HeckerBhai - Profile & History</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js for rating chart -->
@@ -60,6 +60,12 @@
 
     <!-- Profile Info Container -->
     <div id="profileInfo" class="mt-6"></div>
+    <!-- Add Friend Button (New Feature) -->
+    <div class="mt-4 text-center">
+      <button id="addFriendBtn" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded font-semibold">
+        Add Friend
+      </button>
+    </div>
 
     <!-- Rating Graph -->
     <canvas id="ratingChart" class="mt-6 w-full"></canvas>
@@ -90,6 +96,9 @@
             <ul id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-gray-700 text-white shadow-lg rounded hidden">
               <li class="border-b border-gray-600">
                 <a href="user_profile.html" class="block px-4 py-2 hover:bg-gray-600">View Profile</a>
+              </li>
+              <li class="border-b border-gray-600">
+                <a href="friends.html" class="block px-4 py-2 hover:bg-gray-600">View Friends</a>
               </li>
               <li class="border-b border-gray-600">
                 <a href="progress.html" class="block px-4 py-2 hover:bg-gray-600">Your Progress</a>
@@ -155,6 +164,28 @@
       </div>`;
       profileInfoDiv.innerHTML = html;
     }
+
+    /* ----------------- ADD FRIEND FUNCTIONALITY ----------------- */
+    // In this example, "adding a friend" is simulated by saving the friend handle in localStorage.
+    // In a real-world application, you might have a backend to store friends.
+    document.getElementById('addFriendBtn').addEventListener('click', function() {
+      const currentUser = localStorage.getItem('cf_username');
+      if (!currentUser) {
+        alert('Please log in to add friends.');
+        return;
+      }
+      // For this demo, we assume that the friend to add is the current profile user.
+      // You can extend this logic to let the user specify which friend to add.
+      const friendHandle = document.getElementById('usernameInput') ? document.getElementById('usernameInput').value : currentUser;
+      let friends = JSON.parse(localStorage.getItem('friends')) || [];
+      if (!friends.includes(friendHandle)) {
+        friends.push(friendHandle);
+        localStorage.setItem('friends', JSON.stringify(friends));
+        alert(`${friendHandle} added to your friends list.`);
+      } else {
+        alert(`${friendHandle} is already in your friends list.`);
+      }
+    });
 
     async function plotRatingGraphAndContests(username) {
       const errorMessage = document.getElementById('errorMessage');
