@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeckerBhai - Friends</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+  <!-- Navigation Header -->
+  <header class="bg-gray-800 p-4 shadow-lg w-full">
+    <nav class="max-w-4xl mx-auto flex justify-between items-center">
+      <!-- Left: Website Name -->
+      <div class="flex items-center space-x-6">
+        <a href="index.html" class="text-2xl font-bold pl-4">HeckerBhai</a>
+        <a href="index.html" class="text-lg font-semibold hover:underline">HOME</a>
+        <a href="profile.html" class="text-lg font-semibold hover:underline">PROFILE</a>
+        <a href="friends.html" class="text-lg font-semibold hover:underline">FRIENDS</a>
+      </div>
+      <!-- Right: Authentication Area -->
+      <div id="auth-item" class="pr-4">
+        <a href="login.html" id="auth-link" class="text-lg font-semibold hover:underline">LOGIN</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto mt-12 bg-gray-800 p-6 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold text-center mb-4">Your Friends List</h1>
+    <ul id="friendsList" class="space-y-4 text-lg"></ul>
+  </main>
+
+  <script>
+    // Load the friend list from localStorage and display it.
+    function loadFriends() {
+      const friends = JSON.parse(localStorage.getItem('friends')) || [];
+      const friendsList = document.getElementById('friendsList');
+      friendsList.innerHTML = '';
+
+      if (friends.length === 0) {
+        friendsList.innerHTML = '<p class="text-center text-gray-400">No friends added yet.</p>';
+      } else {
+        friends.forEach(friend => {
+          const listItem = document.createElement('li');
+          // Link to view friend's profile (adjust URL as needed)
+          listItem.innerHTML = `<a href="user_profile.html?handle=${encodeURIComponent(friend)}" target="_blank" class="block bg-gray-700 p-4 rounded-lg shadow hover:bg-gray-600">${friend}</a>`;
+          friendsList.appendChild(listItem);
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFriends);
+  </script>
+</body>
+</html>
